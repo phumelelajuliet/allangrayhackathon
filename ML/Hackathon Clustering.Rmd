@@ -1,0 +1,140 @@
+---
+title: "AG Hackathon Notebook"
+output: html_notebook
+---
+
+Get libraries
+```{r}
+library(readr)
+library("dplyr")
+library("tidyr")
+library("ggplot2")
+library("jsonlite")
+```
+
+
+Import data
+Get Books from 5 specific languages
+- Germany, French, eng-us, eng-gb, eng
+```{r}
+books <- read_csv("/Users/thandekachehore/Documents/GitHub/allangrayhackathon/ML/books.csv")
+booksActive = as_tibble(books) %>% filter(language_code %in% c("eng", "en-US", "en-GB", "en-CA"))
+
+```
+
+View data
+```{r}
+summary(booksActive) #quantitative summary of table
+head(booksActive) #first 5 results
+```
+
+List top 10 books with more than 10 ratings
+
+```{r}
+top10BooksRatings = top_n(booksActive, 10, ratings_count) %>% 
+  select(title, authors, average_rating, language_code, ratings_count)
+```
+
+
+-Get number of authors
+-Count number of books by each of the top 20 authors
+
+```{r}
+authorCountPrelim = booksActive %>% group_by(authors) %>% tally() 
+authorNum = length(unique(authorCountPrelim)$n)
+authorCount = top_n(authorCountPrelim, 20, n)
+```
+
+import data
+The dataset is from another site that is from an earlier webscraping exercise from Good Reads as well. The number of ratings and reviews varied for some books. However, the average ratings remained constant.
+```{r}
+books_data <- read_csv("/Users/thandekachehore/Documents/GitHub/allangrayhackathon/ML/book_data.csv")
+books2nd = as_tibble(books_data) %>% filter(book_format %in% c( "Paperback", "Hardcover", "Mass Market Paperback", "Leather Bound", "Flexibound", "Board book", "Library Binding", "Vinyl Cover", "Board Book", "Unknown Binding" ))
+```
+
+
+
+
+Join data. Retain only rows in both sets.
+```{r}
+
+joinTheTables = function(df1, df2) {
+  join2 = select(df2, book_authors, book_title, book_rating_count, book_review_count)
+  join1 = select(df1, title, authors, isbn13,  `# num_pages`, average_rating, ratings_count, text_reviews_count)
+  fire = left_join(join1, join2, by = c("title" = "book_title", "authors" = "book_authors"))
+  fire2 = na.omit(fire)
+  fire2
+}
+finalTable = joinTheTables(booksActive, books2nd)
+```
+
+
+Prepare data for clustering by removing all the qualitative variables and normalizing the data
+```{r}
+normalize <- function(x){(x-min(x))/(max(x)-min(x))}
+prelim = finalTable %>% select(`# num_pages`, average_rating, ratings_count, text_reviews_count, book_rating_count, book_review_count)
+
+ClusDataset = apply(prelim, 2, normalize)
+```
+
+K-means clustering
+```{r}
+library("factoextra")
+set.seed(12102019)
+km.res <- kmeans(ClusDataset, 8, nstart = 25)
+# Print the results
+print(km.res)
+```
+
+Results and Authors/Titles
+```{r}
+resultsTable = cbind(finalTable, clusters = km.res$cluster)
+View(resultsTable)
+```
+
+Cluster Comparison for ratings and reviews
+```{r}
+avg_rating_clusters = resultsTable %>% group_by(clusters) %>% summarise(avgRatings = mean(average_rating))
+avg_ratingCount1_clusters = resultsTable %>% group_by(clusters) %>% summarise(avgRatingCount = mean(ratings_count))
+avg_ratingCount2_clusters = resultsTable %>% group_by(clusters) %>% summarise(avgRatingCount2 = mean(book_rating_count))
+avgRatingComparison = left_join(avg_ratingCount1_clusters, avg_ratingCount2_clusters, by = "clusters" )
+
+avg_reviewCount_clusters1 = resultsTable %>% group_by(clusters) %>% summarise(avgReviews = mean(text_reviews_count))
+avg_reviewCount_clusters2 = resultsTable %>% group_by(clusters) %>% summarise(avgReviews2 = mean(book_review_count))
+avgReviewComparison = left_join(avg_reviewCount_clusters1, avg_reviewCount_clusters2, by = "clusters" )
+
+```
+
+Cluster comparison of number of authors per cluster and then avg number of pages per cluster
+```{r}
+numAuthors_clusters = resultsTable %>% group_by(clusters) %>% summarise(num_authors = length(unique(authors)))
+numAuthors_clusters = cbind(numAuthors_clusters, size=km.res$size)
+avg_Pages_clusters = resultsTable %>% group_by(clusters) %>% summarise(avgPages = mean(`# num_pages`))
+```
+
+Output the comparison tables to csv for visualization for pitchdeck
+```{r}
+
+```
+
+
+
+Function to randomly pick books
+```{r}
+totSkwlBooks = 50
+totBooksAvail = length(km.res$cluster)
+k = 8 #number of clusters
+bookPack = NULL
+for (i in 1:k) {
+  clusterSize = km.res$size[i]
+  sampleSize = round((clusterSize/totBooksAvail) * totSkwlBooks)
+  clusterGroup = filter(resultsTable, clusters == i)
+  chosenBks = sample_n(clusterGroup, sampleSize) %>% select(authors, title, isbn13, average_rating)
+  bookPack = bind_rows(bookPack, chosenBks)
+  print(i)
+}
+exportJSON <- toJSON(bookPack, pretty = TRUE)
+write(exportJSON, "bookStack.json")
+```
+
+
