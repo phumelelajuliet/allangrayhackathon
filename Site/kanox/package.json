@@ -1,0 +1,22 @@
+{
+  "name": "kanox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mainnode.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phumelelajuliet/allangrayhackathon.git"
+  },
+  "author": "phumelelajuliet thandeka25",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/phumelelajuliet/allangrayhackathon/issues"
+  },
+  "homepage": "https://github.com/phumelelajuliet/allangrayhackathon#readme",
+  "dependencies": {
+    "mysql": "^2.17.1"
+  }
+}
