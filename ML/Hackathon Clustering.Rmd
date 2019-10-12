@@ -1,0 +1,53 @@
+---
+title: "AG Hackathon Notebook"
+output: html_notebook
+---
+
+Get libraries
+```{r}
+library(readr)
+library("dplyr")
+library("tidyr")
+library("ggplot2")
+```
+
+
+Import data
+```{r}
+books <- read_csv("/Users/thandekachehore/Documents/GitHub/allangrayhackathon/ML/books.csv")
+booksActive = as_tibble(books) %>% filter(language_code %in% c("eng", "en-US", "en-GB", "en-CA"))
+```
+
+View data
+```{r}
+summary(booksActive) #quantitative summary of table
+head(booksActive) #first 5 results
+```
+
+List top 10 books with more than 10 ratings
+
+```{r}
+top10BooksRatings = top_n(booksActive, 10, ratings_count) %>% 
+  select(title, authors, average_rating, language_code, ratings_count)
+```
+
+Get Books from 5 specific languages
+- Germany, French, eng-us, eng-gb, eng
+```{r}
+BooksLang =  booksActive %>% filter(language_code %in% c("eng", "en-US", "en-GB", "en-CA")) #filter by 5 conditions of languages
+```
+
+-Get number of authors
+-Count number of books by each of the top 10 authors
+-Top 10 highly rated authors
+-Bottom least rated authors
+```{r}
+
+```
+
+
+Import second dataset
+Turn dataset into  tibble
+connect the two datasets
+divide the values in a column by a separator
+
