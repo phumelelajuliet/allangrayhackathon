@@ -43,16 +43,19 @@ authorNum = length(unique(authorCountPrelim)$n)
 authorCount = top_n(authorCountPrelim, 20, n)
 ```
 
-
-
-
-Import second dataset
-Turn dataset into  tibble
-connect the two datasets
-divide the values in a column by a separator
-
+Join data. Retain only rows in both sets.
 ```{r}
+join2 = select(books2nd, book_isbn, book_format, book_rating, book_rating_count, book_review_count)
+join1 = 
 
+```
+
+
+
+
+Clustering
+```{r}
+ClusDataset = sample_n(booksActive, 2500)
 ```
 
 
