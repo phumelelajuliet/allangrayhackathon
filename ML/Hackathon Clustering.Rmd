@@ -9,6 +9,7 @@ library(readr)
 library("dplyr")
 library("tidyr")
 library("ggplot2")
+library("jsonlite")
 ```
 
 
@@ -117,6 +118,7 @@ Output the comparison tables to csv for visualization for pitchdeck
 ```
 
 
+
 Function to randomly pick books
 ```{r}
 totSkwlBooks = 50
@@ -127,10 +129,12 @@ for (i in 1:k) {
   clusterSize = km.res$size[i]
   sampleSize = round((clusterSize/totBooksAvail) * totSkwlBooks)
   clusterGroup = filter(resultsTable, clusters == i)
-  chosenBks = sample_n(clusterGroup, sampleSize)
+  chosenBks = sample_n(clusterGroup, sampleSize) %>% select(authors, title, isbn13, average_rating)
   bookPack = bind_rows(bookPack, chosenBks)
   print(i)
 }
+exportJSON <- toJSON(bookPack, pretty = TRUE)
+write(exportJSON, "bookStack.json")
 ```
 
 
