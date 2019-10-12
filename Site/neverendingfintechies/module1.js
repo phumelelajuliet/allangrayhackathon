@@ -1,3 +1,4 @@
+import * as require from './node_modules/require.js/require.js';
 var mysql = require('mysql');
 
 var con = mysql.createConnection({

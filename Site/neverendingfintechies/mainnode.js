@@ -1,8 +1,18 @@
-require( 'datatables.net-dt' )();
-require( 'datatables.net-buttons-dt' )();
-require( 'datatables.net-keytable-dt' )();
-require( 'datatables.net-responsive-dt' )();
-require( 'datatables.net-select-dt' )();
+import * as require from './node_modules/require.js/require.js'
+//require( 'datatables.net-dt' )();
+require( './node_modules/datatables.net-dt' )();
+//require( 'datatables.net-buttons-dt' )();
+require( './node_modules/datatables.net-buttons' )();
+require('./node_modules/datatables.net-buttons-dt')
+//require( 'datatables.net-keytable-dt' )();
+require( './node_modules/datatables.net-keytable' )();
+require('./node_modules/datatables.net-keytable-dt')
+//require( 'datatables.net-responsive-dt' )();
+require( './node_modules/datatables.net-responsive' )();
+require( './node_modules/datatables.net-responsive-dt' )();
+//require( 'datatables.net-select-dt' )();
+require( './node_modules/datatables.net-select' )();
+require( './node_modules/datatables.net-select-dt')();
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
@@ -12,18 +22,21 @@ var con = mysql.createConnection({
   database: "fintechdb"
 });
 
-var dataSet= ["1","2","3","4","5","6"]
+var server = app.listen(3000, function () {
+  console.log('Server is running...');
+
+var dataSet= ["1","2","3","4"];
   //table data document
   $(document).ready(function() {
     $('#bookPurchase').DataTable({
       data: dataSet,
         columns: [
-            { title: "ISBN13" },
-            { title: "ISBN10" },
             { title: "Author" },
-            { title: "Edition" },
-            { title: "Publisher" },
-            { title: "Published" }
+            { title: "Title" },
+            { title: "ISBN13" },
+            { title: "Rating" }
         ]
     });
 } );
+
+//read json file into sql server
