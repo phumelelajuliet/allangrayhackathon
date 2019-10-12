@@ -46,7 +46,9 @@ authorCount = top_n(authorCountPrelim, 20, n)
 Join data. Retain only rows in both sets.
 ```{r}
 join2 = select(books2nd, book_isbn, book_format, book_rating, book_rating_count, book_review_count)
-join1 = 
+join2 <- join2 %>% rename(isbn13 = book_isbn) 
+
+
 
 ```
 
