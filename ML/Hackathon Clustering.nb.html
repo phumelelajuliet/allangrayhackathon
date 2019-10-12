@@ -250,7 +250,7 @@ library(&quot;ggplot2&quot;)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Import data</p>
+<p>Import data Get Books from 5 specific languages - Germany, French, eng-us, eng-gb, eng</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYm9va3MgPC0gcmVhZF9jc3YoXCIvVXNlcnMvdGhhbmRla2FjaGVob3JlL0RvY3VtZW50cy9HaXRIdWIvYWxsYW5ncmF5aGFja2F0aG9uL01ML2Jvb2tzLmNzdlwiKVxuYm9va3NBY3RpdmUgPSBhc190aWJibGUoYm9va3MpICU+JSBmaWx0ZXIobGFuZ3VhZ2VfY29kZSAlaW4lIGMoXCJlbmdcIiwgXCJlbi1VU1wiLCBcImVuLUdCXCIsIFwiZW4tQ0FcIikpXG5gYGAifQ== -->
@@ -277,23 +277,24 @@ head(booksActive) #first 5 results</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Get Books from 5 specific languages - Germany, French, eng-us, eng-gb, eng</p>
+<p>-Get number of authors -Count number of books by each of the top 20 authors</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQm9va3NMYW5nID0gIGJvb2tzQWN0aXZlICU+JSBmaWx0ZXIobGFuZ3VhZ2VfY29kZSAlaW4lIGMoXCJlbmdcIiwgXCJlbi1VU1wiLCBcImVuLUdCXCIsIFwiZW4tQ0FcIikpICNmaWx0ZXIgYnkgNSBjb25kaXRpb25zIG9mIGxhbmd1YWdlc1xuYGBgIn0= -->
-<pre class="r"><code>BooksLang =  booksActive %&gt;% filter(language_code %in% c(&quot;eng&quot;, &quot;en-US&quot;, &quot;en-GB&quot;, &quot;en-CA&quot;)) #filter by 5 conditions of languages</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYXV0aG9yQ291bnRQcmVsaW0gPSBib29rc0FjdGl2ZSAlPiUgZ3JvdXBfYnkoYXV0aG9ycykgJT4lIHRhbGx5KCkgXG5hdXRob3JOdW0gPSBsZW5ndGgodW5pcXVlKGF1dGhvckNvdW50UHJlbGltKSRuKVxuYXV0aG9yQ291bnQgPSB0b3BfbihhdXRob3JDb3VudFByZWxpbSwgMjAsIG4pXG5gYGAifQ== -->
+<pre class="r"><code>authorCountPrelim = booksActive %&gt;% group_by(authors) %&gt;% tally() 
+authorNum = length(unique(authorCountPrelim)$n)
+authorCount = top_n(authorCountPrelim, 20, n)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>-Get number of authors -Count number of books by each of the top 10 authors -Top 10 highly rated authors -Bottom least rated authors</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Import second dataset Turn dataset into tibble connect the two datasets divide the values in a column by a separator</p>
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQUcgSGFja2F0aG9uIE5vdGVib29rIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpHZXQgbGlicmFyaWVzCmBgYHtyfQpsaWJyYXJ5KHJlYWRyKQpsaWJyYXJ5KCJkcGx5ciIpCmxpYnJhcnkoInRpZHlyIikKbGlicmFyeSgiZ2dwbG90MiIpCmBgYAoKCkltcG9ydCBkYXRhCmBgYHtyfQpib29rcyA8LSByZWFkX2NzdigiL1VzZXJzL3RoYW5kZWthY2hlaG9yZS9Eb2N1bWVudHMvR2l0SHViL2FsbGFuZ3JheWhhY2thdGhvbi9NTC9ib29rcy5jc3YiKQpib29rc0FjdGl2ZSA9IGFzX3RpYmJsZShib29rcykgJT4lIGZpbHRlcihsYW5ndWFnZV9jb2RlICVpbiUgYygiZW5nIiwgImVuLVVTIiwgImVuLUdCIiwgImVuLUNBIikpCmBgYAoKVmlldyBkYXRhCmBgYHtyfQpzdW1tYXJ5KGJvb2tzQWN0aXZlKSAjcXVhbnRpdGF0aXZlIHN1bW1hcnkgb2YgdGFibGUKaGVhZChib29rc0FjdGl2ZSkgI2ZpcnN0IDUgcmVzdWx0cwpgYGAKCkxpc3QgdG9wIDEwIGJvb2tzIHdpdGggbW9yZSB0aGFuIDEwIHJhdGluZ3MKCmBgYHtyfQp0b3AxMEJvb2tzUmF0aW5ncyA9IHRvcF9uKGJvb2tzQWN0aXZlLCAxMCwgcmF0aW5nc19jb3VudCkgJT4lIAogIHNlbGVjdCh0aXRsZSwgYXV0aG9ycywgYXZlcmFnZV9yYXRpbmcsIGxhbmd1YWdlX2NvZGUsIHJhdGluZ3NfY291bnQpCmBgYAoKR2V0IEJvb2tzIGZyb20gNSBzcGVjaWZpYyBsYW5ndWFnZXMKLSBHZXJtYW55LCBGcmVuY2gsIGVuZy11cywgZW5nLWdiLCBlbmcKYGBge3J9CkJvb2tzTGFuZyA9ICBib29rc0FjdGl2ZSAlPiUgZmlsdGVyKGxhbmd1YWdlX2NvZGUgJWluJSBjKCJlbmciLCAiZW4tVVMiLCAiZW4tR0IiLCAiZW4tQ0EiKSkgI2ZpbHRlciBieSA1IGNvbmRpdGlvbnMgb2YgbGFuZ3VhZ2VzCmBgYAoKLUdldCBudW1iZXIgb2YgYXV0aG9ycwotQ291bnQgbnVtYmVyIG9mIGJvb2tzIGJ5IGVhY2ggb2YgdGhlIHRvcCAxMCBhdXRob3JzCi1Ub3AgMTAgaGlnaGx5IHJhdGVkIGF1dGhvcnMKLUJvdHRvbSBsZWFzdCByYXRlZCBhdXRob3JzCmBgYHtyfQoKYGBgCgoKSW1wb3J0IHNlY29uZCBkYXRhc2V0ClR1cm4gZGF0YXNldCBpbnRvICB0aWJibGUKY29ubmVjdCB0aGUgdHdvIGRhdGFzZXRzCmRpdmlkZSB0aGUgdmFsdWVzIGluIGEgY29sdW1uIGJ5IGEgc2VwYXJhdG9yCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQUcgSGFja2F0aG9uIE5vdGVib29rIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpHZXQgbGlicmFyaWVzCmBgYHtyfQpsaWJyYXJ5KHJlYWRyKQpsaWJyYXJ5KCJkcGx5ciIpCmxpYnJhcnkoInRpZHlyIikKbGlicmFyeSgiZ2dwbG90MiIpCmBgYAoKCkltcG9ydCBkYXRhCkdldCBCb29rcyBmcm9tIDUgc3BlY2lmaWMgbGFuZ3VhZ2VzCi0gR2VybWFueSwgRnJlbmNoLCBlbmctdXMsIGVuZy1nYiwgZW5nCmBgYHtyfQpib29rcyA8LSByZWFkX2NzdigiL1VzZXJzL3RoYW5kZWthY2hlaG9yZS9Eb2N1bWVudHMvR2l0SHViL2FsbGFuZ3JheWhhY2thdGhvbi9NTC9ib29rcy5jc3YiKQpib29rc0FjdGl2ZSA9IGFzX3RpYmJsZShib29rcykgJT4lIGZpbHRlcihsYW5ndWFnZV9jb2RlICVpbiUgYygiZW5nIiwgImVuLVVTIiwgImVuLUdCIiwgImVuLUNBIikpCmBgYAoKVmlldyBkYXRhCmBgYHtyfQpzdW1tYXJ5KGJvb2tzQWN0aXZlKSAjcXVhbnRpdGF0aXZlIHN1bW1hcnkgb2YgdGFibGUKaGVhZChib29rc0FjdGl2ZSkgI2ZpcnN0IDUgcmVzdWx0cwpgYGAKCkxpc3QgdG9wIDEwIGJvb2tzIHdpdGggbW9yZSB0aGFuIDEwIHJhdGluZ3MKCmBgYHtyfQp0b3AxMEJvb2tzUmF0aW5ncyA9IHRvcF9uKGJvb2tzQWN0aXZlLCAxMCwgcmF0aW5nc19jb3VudCkgJT4lIAogIHNlbGVjdCh0aXRsZSwgYXV0aG9ycywgYXZlcmFnZV9yYXRpbmcsIGxhbmd1YWdlX2NvZGUsIHJhdGluZ3NfY291bnQpCmBgYAoKCi1HZXQgbnVtYmVyIG9mIGF1dGhvcnMKLUNvdW50IG51bWJlciBvZiBib29rcyBieSBlYWNoIG9mIHRoZSB0b3AgMjAgYXV0aG9ycwoKYGBge3J9CmF1dGhvckNvdW50UHJlbGltID0gYm9va3NBY3RpdmUgJT4lIGdyb3VwX2J5KGF1dGhvcnMpICU+JSB0YWxseSgpIAphdXRob3JOdW0gPSBsZW5ndGgodW5pcXVlKGF1dGhvckNvdW50UHJlbGltKSRuKQphdXRob3JDb3VudCA9IHRvcF9uKGF1dGhvckNvdW50UHJlbGltLCAyMCwgbikKYGBgCgoKCgpJbXBvcnQgc2Vjb25kIGRhdGFzZXQKVHVybiBkYXRhc2V0IGludG8gIHRpYmJsZQpjb25uZWN0IHRoZSB0d28gZGF0YXNldHMKZGl2aWRlIHRoZSB2YWx1ZXMgaW4gYSBjb2x1bW4gYnkgYSBzZXBhcmF0b3IKCmBgYHtyfQoKYGBgCgoK</div>
 
 
 
