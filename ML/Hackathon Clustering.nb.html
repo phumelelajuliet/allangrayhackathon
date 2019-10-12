@@ -253,9 +253,10 @@ library(&quot;ggplot2&quot;)</code></pre>
 <p>Import data Get Books from 5 specific languages - Germany, French, eng-us, eng-gb, eng</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYm9va3MgPC0gcmVhZF9jc3YoXCIvVXNlcnMvdGhhbmRla2FjaGVob3JlL0RvY3VtZW50cy9HaXRIdWIvYWxsYW5ncmF5aGFja2F0aG9uL01ML2Jvb2tzLmNzdlwiKVxuYm9va3NBY3RpdmUgPSBhc190aWJibGUoYm9va3MpICU+JSBmaWx0ZXIobGFuZ3VhZ2VfY29kZSAlaW4lIGMoXCJlbmdcIiwgXCJlbi1VU1wiLCBcImVuLUdCXCIsIFwiZW4tQ0FcIikpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYm9va3MgPC0gcmVhZF9jc3YoXCIvVXNlcnMvdGhhbmRla2FjaGVob3JlL0RvY3VtZW50cy9HaXRIdWIvYWxsYW5ncmF5aGFja2F0aG9uL01ML2Jvb2tzLmNzdlwiKVxuYm9va3NBY3RpdmUgPSBhc190aWJibGUoYm9va3MpICU+JSBmaWx0ZXIobGFuZ3VhZ2VfY29kZSAlaW4lIGMoXCJlbmdcIiwgXCJlbi1VU1wiLCBcImVuLUdCXCIsIFwiZW4tQ0FcIikpXG5cbmBgYCJ9 -->
 <pre class="r"><code>books &lt;- read_csv(&quot;/Users/thandekachehore/Documents/GitHub/allangrayhackathon/ML/books.csv&quot;)
-booksActive = as_tibble(books) %&gt;% filter(language_code %in% c(&quot;eng&quot;, &quot;en-US&quot;, &quot;en-GB&quot;, &quot;en-CA&quot;))</code></pre>
+booksActive = as_tibble(books) %&gt;% filter(language_code %in% c(&quot;eng&quot;, &quot;en-US&quot;, &quot;en-GB&quot;, &quot;en-CA&quot;))
+</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -287,27 +288,93 @@ authorCount = top_n(authorCountPrelim, 20, n)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>import data The dataset is from another site that is from an earlier webscraping exercise from Good Reads as well. The number of ratings and reviews varied for some books. However, the average ratings remained constant.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYm9va3NfZGF0YSA8LSByZWFkX2NzdihcIi9Vc2Vycy90aGFuZGVrYWNoZWhvcmUvRG9jdW1lbnRzL0dpdEh1Yi9hbGxhbmdyYXloYWNrYXRob24vTUwvYm9va19kYXRhLmNzdlwiKVxuYm9va3MybmQgPSBhc190aWJibGUoYm9va3NfZGF0YSkgJT4lIGZpbHRlcihib29rX2Zvcm1hdCAlaW4lIGMoIFwiUGFwZXJiYWNrXCIsIFwiSGFyZGNvdmVyXCIsIFwiTWFzcyBNYXJrZXQgUGFwZXJiYWNrXCIsIFwiTGVhdGhlciBCb3VuZFwiLCBcIkZsZXhpYm91bmRcIiwgXCJCb2FyZCBib29rXCIsIFwiTGlicmFyeSBCaW5kaW5nXCIsIFwiVmlueWwgQ292ZXJcIiwgXCJCb2FyZCBCb29rXCIsIFwiVW5rbm93biBCaW5kaW5nXCIgKSlcbmBgYCJ9 -->
+<pre class="r"><code>books_data &lt;- read_csv(&quot;/Users/thandekachehore/Documents/GitHub/allangrayhackathon/ML/book_data.csv&quot;)
+books2nd = as_tibble(books_data) %&gt;% filter(book_format %in% c( &quot;Paperback&quot;, &quot;Hardcover&quot;, &quot;Mass Market Paperback&quot;, &quot;Leather Bound&quot;, &quot;Flexibound&quot;, &quot;Board book&quot;, &quot;Library Binding&quot;, &quot;Vinyl Cover&quot;, &quot;Board Book&quot;, &quot;Unknown Binding&quot; ))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <p>Join data. Retain only rows in both sets.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuam9pbjIgPSBzZWxlY3QoYm9va3MybmQsIGJvb2tfaXNibiwgYm9va19mb3JtYXQsIGJvb2tfcmF0aW5nLCBib29rX3JhdGluZ19jb3VudCwgYm9va19yZXZpZXdfY291bnQpXG5qb2luMiA8LSBqb2luMiAlPiUgcmVuYW1lKGlzYm4xMyA9IGJvb2tfaXNibikgXG5cblxuXG5gYGAifQ== -->
-<pre class="r"><code>join2 = select(books2nd, book_isbn, book_format, book_rating, book_rating_count, book_review_count)
-join2 &lt;- join2 %&gt;% rename(isbn13 = book_isbn) 
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5qb2luVGhlVGFibGVzID0gZnVuY3Rpb24oZGYxLCBkZjIpIHtcbiAgam9pbjIgPSBzZWxlY3QoZGYyLCBib29rX2F1dGhvcnMsIGJvb2tfdGl0bGUsIGJvb2tfcmF0aW5nX2NvdW50LCBib29rX3Jldmlld19jb3VudClcbiAgam9pbjEgPSBzZWxlY3QoZGYxLCB0aXRsZSwgYXV0aG9ycywgaXNibjEzLCAgYCMgbnVtX3BhZ2VzYCwgYXZlcmFnZV9yYXRpbmcsIHJhdGluZ3NfY291bnQsIHRleHRfcmV2aWV3c19jb3VudClcbiAgZmlyZSA9IGxlZnRfam9pbihqb2luMSwgam9pbjIsIGJ5ID0gYyhcInRpdGxlXCIgPSBcImJvb2tfdGl0bGVcIiwgXCJhdXRob3JzXCIgPSBcImJvb2tfYXV0aG9yc1wiKSlcbiAgZmlyZTIgPSBuYS5vbWl0KGZpcmUpXG4gIGZpcmUyXG59XG5maW5hbFRhYmxlID0gam9pblRoZVRhYmxlcyhib29rc0FjdGl2ZSwgYm9va3MybmQpXG5gYGAifQ== -->
+<pre class="r"><code>
+joinTheTables = function(df1, df2) {
+  join2 = select(df2, book_authors, book_title, book_rating_count, book_review_count)
+  join1 = select(df1, title, authors, isbn13,  `# num_pages`, average_rating, ratings_count, text_reviews_count)
+  fire = left_join(join1, join2, by = c(&quot;title&quot; = &quot;book_title&quot;, &quot;authors&quot; = &quot;book_authors&quot;))
+  fire2 = na.omit(fire)
+  fire2
+}
+finalTable = joinTheTables(booksActive, books2nd)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Prepare data for clustering by removing all the qualitative variables and normalizing the data</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubm9ybWFsaXplIDwtIGZ1bmN0aW9uKHgpeyh4LW1pbih4KSkvKG1heCh4KS1taW4oeCkpfVxucHJlbGltID0gZmluYWxUYWJsZSAlPiUgc2VsZWN0KGAjIG51bV9wYWdlc2AsIGF2ZXJhZ2VfcmF0aW5nLCByYXRpbmdzX2NvdW50LCB0ZXh0X3Jldmlld3NfY291bnQsIGJvb2tfcmF0aW5nX2NvdW50LCBib29rX3Jldmlld19jb3VudClcblxuQ2x1c0RhdGFzZXQgPSBhcHBseShwcmVsaW0sIDIsIG5vcm1hbGl6ZSlcbmBgYCJ9 -->
+<pre class="r"><code>normalize &lt;- function(x){(x-min(x))/(max(x)-min(x))}
+prelim = finalTable %&gt;% select(`# num_pages`, average_rating, ratings_count, text_reviews_count, book_rating_count, book_review_count)
+
+ClusDataset = apply(prelim, 2, normalize)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>K-means clustering</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShcImZhY3RvZXh0cmFcIilcbnNldC5zZWVkKDEyMTAyMDE5KVxua20ucmVzIDwtIGttZWFucyhDbHVzRGF0YXNldCwgOCwgbnN0YXJ0ID0gMjUpXG4jIFByaW50IHRoZSByZXN1bHRzXG5wcmludChrbS5yZXMpXG5gYGAifQ== -->
+<pre class="r"><code>library(&quot;factoextra&quot;)
+set.seed(12102019)
+km.res &lt;- kmeans(ClusDataset, 8, nstart = 25)
+# Print the results
+print(km.res)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Results and Authors/Titles</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVzdWx0c1RhYmxlID0gY2JpbmQoZmluYWxUYWJsZSwgY2x1c3RlcnMgPSBrbS5yZXMkY2x1c3RlcilcblZpZXcocmVzdWx0c1RhYmxlKVxuYGBgIn0= -->
+<pre class="r"><code>resultsTable = cbind(finalTable, clusters = km.res$cluster)
+View(resultsTable)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Cluster Comparison for ratings and reviews</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYXZnX3JhdGluZ19jbHVzdGVycyA9IHJlc3VsdHNUYWJsZSAlPiUgZ3JvdXBfYnkoY2x1c3RlcnMpICU+JSBzdW1tYXJpc2UoYXZnUmF0aW5ncyA9IG1lYW4oYXZlcmFnZV9yYXRpbmcpKVxuYXZnX3JhdGluZ0NvdW50MV9jbHVzdGVycyA9IHJlc3VsdHNUYWJsZSAlPiUgZ3JvdXBfYnkoY2x1c3RlcnMpICU+JSBzdW1tYXJpc2UoYXZnUmF0aW5nQ291bnQgPSBtZWFuKHJhdGluZ3NfY291bnQpKVxuYXZnX3JhdGluZ0NvdW50Ml9jbHVzdGVycyA9IHJlc3VsdHNUYWJsZSAlPiUgZ3JvdXBfYnkoY2x1c3RlcnMpICU+JSBzdW1tYXJpc2UoYXZnUmF0aW5nQ291bnQyID0gbWVhbihib29rX3JhdGluZ19jb3VudCkpXG5hdmdSYXRpbmdDb21wYXJpc29uID0gbGVmdF9qb2luKGF2Z19yYXRpbmdDb3VudDFfY2x1c3RlcnMsIGF2Z19yYXRpbmdDb3VudDJfY2x1c3RlcnMsIGJ5ID0gXCJjbHVzdGVyc1wiIClcblxuYXZnX3Jldmlld0NvdW50X2NsdXN0ZXJzMSA9IHJlc3VsdHNUYWJsZSAlPiUgZ3JvdXBfYnkoY2x1c3RlcnMpICU+JSBzdW1tYXJpc2UoYXZnUmV2aWV3cyA9IG1lYW4odGV4dF9yZXZpZXdzX2NvdW50KSlcbmF2Z19yZXZpZXdDb3VudF9jbHVzdGVyczIgPSByZXN1bHRzVGFibGUgJT4lIGdyb3VwX2J5KGNsdXN0ZXJzKSAlPiUgc3VtbWFyaXNlKGF2Z1Jldmlld3MyID0gbWVhbihib29rX3Jldmlld19jb3VudCkpXG5hdmdSZXZpZXdDb21wYXJpc29uID0gbGVmdF9qb2luKGF2Z19yZXZpZXdDb3VudF9jbHVzdGVyczEsIGF2Z19yZXZpZXdDb3VudF9jbHVzdGVyczIsIGJ5ID0gXCJjbHVzdGVyc1wiIClcblxuYGBgIn0= -->
+<pre class="r"><code>avg_rating_clusters = resultsTable %&gt;% group_by(clusters) %&gt;% summarise(avgRatings = mean(average_rating))
+avg_ratingCount1_clusters = resultsTable %&gt;% group_by(clusters) %&gt;% summarise(avgRatingCount = mean(ratings_count))
+avg_ratingCount2_clusters = resultsTable %&gt;% group_by(clusters) %&gt;% summarise(avgRatingCount2 = mean(book_rating_count))
+avgRatingComparison = left_join(avg_ratingCount1_clusters, avg_ratingCount2_clusters, by = &quot;clusters&quot; )
+
+avg_reviewCount_clusters1 = resultsTable %&gt;% group_by(clusters) %&gt;% summarise(avgReviews = mean(text_reviews_count))
+avg_reviewCount_clusters2 = resultsTable %&gt;% group_by(clusters) %&gt;% summarise(avgReviews2 = mean(book_review_count))
+avgReviewComparison = left_join(avg_reviewCount_clusters1, avg_reviewCount_clusters2, by = &quot;clusters&quot; )
 </code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Clustering</p>
+<p>Cluster comparison of number of authors per cluster and then avg number of pages per cluster</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQ2x1c0RhdGFzZXQgPSBzYW1wbGVfbihib29rc0FjdGl2ZSwgMjUwMClcbmBgYCJ9 -->
-<pre class="r"><code>ClusDataset = sample_n(booksActive, 2500)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubnVtQXV0aG9yc19jbHVzdGVycyA9IHJlc3VsdHNUYWJsZSAlPiUgZ3JvdXBfYnkoY2x1c3RlcnMpICU+JSBzdW1tYXJpc2UobnVtX2F1dGhvcnMgPSBsZW5ndGgodW5pcXVlKGF1dGhvcnMpKSlcbm51bUF1dGhvcnNfY2x1c3RlcnMgPSBjYmluZChudW1BdXRob3JzX2NsdXN0ZXJzLCBzaXplPWttLnJlcyRzaXplKVxuYXZnX1BhZ2VzX2NsdXN0ZXJzID0gcmVzdWx0c1RhYmxlICU+JSBncm91cF9ieShjbHVzdGVycykgJT4lIHN1bW1hcmlzZShhdmdQYWdlcyA9IG1lYW4oYCMgbnVtX3BhZ2VzYCkpXG5gYGAifQ== -->
+<pre class="r"><code>numAuthors_clusters = resultsTable %&gt;% group_by(clusters) %&gt;% summarise(num_authors = length(unique(authors)))
+numAuthors_clusters = cbind(numAuthors_clusters, size=km.res$size)
+avg_Pages_clusters = resultsTable %&gt;% group_by(clusters) %&gt;% summarise(avgPages = mean(`# num_pages`))</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>Output the comparison tables to csv for visualization for pitchdeck</p>
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQUcgSGFja2F0aG9uIE5vdGVib29rIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpHZXQgbGlicmFyaWVzCmBgYHtyfQpsaWJyYXJ5KHJlYWRyKQpsaWJyYXJ5KCJkcGx5ciIpCmxpYnJhcnkoInRpZHlyIikKbGlicmFyeSgiZ2dwbG90MiIpCmBgYAoKCkltcG9ydCBkYXRhCkdldCBCb29rcyBmcm9tIDUgc3BlY2lmaWMgbGFuZ3VhZ2VzCi0gR2VybWFueSwgRnJlbmNoLCBlbmctdXMsIGVuZy1nYiwgZW5nCmBgYHtyfQpib29rcyA8LSByZWFkX2NzdigiL1VzZXJzL3RoYW5kZWthY2hlaG9yZS9Eb2N1bWVudHMvR2l0SHViL2FsbGFuZ3JheWhhY2thdGhvbi9NTC9ib29rcy5jc3YiKQpib29rc0FjdGl2ZSA9IGFzX3RpYmJsZShib29rcykgJT4lIGZpbHRlcihsYW5ndWFnZV9jb2RlICVpbiUgYygiZW5nIiwgImVuLVVTIiwgImVuLUdCIiwgImVuLUNBIikpCmBgYAoKVmlldyBkYXRhCmBgYHtyfQpzdW1tYXJ5KGJvb2tzQWN0aXZlKSAjcXVhbnRpdGF0aXZlIHN1bW1hcnkgb2YgdGFibGUKaGVhZChib29rc0FjdGl2ZSkgI2ZpcnN0IDUgcmVzdWx0cwpgYGAKCkxpc3QgdG9wIDEwIGJvb2tzIHdpdGggbW9yZSB0aGFuIDEwIHJhdGluZ3MKCmBgYHtyfQp0b3AxMEJvb2tzUmF0aW5ncyA9IHRvcF9uKGJvb2tzQWN0aXZlLCAxMCwgcmF0aW5nc19jb3VudCkgJT4lIAogIHNlbGVjdCh0aXRsZSwgYXV0aG9ycywgYXZlcmFnZV9yYXRpbmcsIGxhbmd1YWdlX2NvZGUsIHJhdGluZ3NfY291bnQpCmBgYAoKCi1HZXQgbnVtYmVyIG9mIGF1dGhvcnMKLUNvdW50IG51bWJlciBvZiBib29rcyBieSBlYWNoIG9mIHRoZSB0b3AgMjAgYXV0aG9ycwoKYGBge3J9CmF1dGhvckNvdW50UHJlbGltID0gYm9va3NBY3RpdmUgJT4lIGdyb3VwX2J5KGF1dGhvcnMpICU+JSB0YWxseSgpIAphdXRob3JOdW0gPSBsZW5ndGgodW5pcXVlKGF1dGhvckNvdW50UHJlbGltKSRuKQphdXRob3JDb3VudCA9IHRvcF9uKGF1dGhvckNvdW50UHJlbGltLCAyMCwgbikKYGBgCgpKb2luIGRhdGEuIFJldGFpbiBvbmx5IHJvd3MgaW4gYm90aCBzZXRzLgpgYGB7cn0Kam9pbjIgPSBzZWxlY3QoYm9va3MybmQsIGJvb2tfaXNibiwgYm9va19mb3JtYXQsIGJvb2tfcmF0aW5nLCBib29rX3JhdGluZ19jb3VudCwgYm9va19yZXZpZXdfY291bnQpCmpvaW4yIDwtIGpvaW4yICU+JSByZW5hbWUoaXNibjEzID0gYm9va19pc2JuKSAKCgoKYGBgCgoKCgpDbHVzdGVyaW5nCmBgYHtyfQpDbHVzRGF0YXNldCA9IHNhbXBsZV9uKGJvb2tzQWN0aXZlLCAyNTAwKQpgYGAKCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQUcgSGFja2F0aG9uIE5vdGVib29rIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpHZXQgbGlicmFyaWVzCmBgYHtyfQpsaWJyYXJ5KHJlYWRyKQpsaWJyYXJ5KCJkcGx5ciIpCmxpYnJhcnkoInRpZHlyIikKbGlicmFyeSgiZ2dwbG90MiIpCmBgYAoKCkltcG9ydCBkYXRhCkdldCBCb29rcyBmcm9tIDUgc3BlY2lmaWMgbGFuZ3VhZ2VzCi0gR2VybWFueSwgRnJlbmNoLCBlbmctdXMsIGVuZy1nYiwgZW5nCmBgYHtyfQpib29rcyA8LSByZWFkX2NzdigiL1VzZXJzL3RoYW5kZWthY2hlaG9yZS9Eb2N1bWVudHMvR2l0SHViL2FsbGFuZ3JheWhhY2thdGhvbi9NTC9ib29rcy5jc3YiKQpib29rc0FjdGl2ZSA9IGFzX3RpYmJsZShib29rcykgJT4lIGZpbHRlcihsYW5ndWFnZV9jb2RlICVpbiUgYygiZW5nIiwgImVuLVVTIiwgImVuLUdCIiwgImVuLUNBIikpCgpgYGAKClZpZXcgZGF0YQpgYGB7cn0Kc3VtbWFyeShib29rc0FjdGl2ZSkgI3F1YW50aXRhdGl2ZSBzdW1tYXJ5IG9mIHRhYmxlCmhlYWQoYm9va3NBY3RpdmUpICNmaXJzdCA1IHJlc3VsdHMKYGBgCgpMaXN0IHRvcCAxMCBib29rcyB3aXRoIG1vcmUgdGhhbiAxMCByYXRpbmdzCgpgYGB7cn0KdG9wMTBCb29rc1JhdGluZ3MgPSB0b3Bfbihib29rc0FjdGl2ZSwgMTAsIHJhdGluZ3NfY291bnQpICU+JSAKICBzZWxlY3QodGl0bGUsIGF1dGhvcnMsIGF2ZXJhZ2VfcmF0aW5nLCBsYW5ndWFnZV9jb2RlLCByYXRpbmdzX2NvdW50KQpgYGAKCgotR2V0IG51bWJlciBvZiBhdXRob3JzCi1Db3VudCBudW1iZXIgb2YgYm9va3MgYnkgZWFjaCBvZiB0aGUgdG9wIDIwIGF1dGhvcnMKCmBgYHtyfQphdXRob3JDb3VudFByZWxpbSA9IGJvb2tzQWN0aXZlICU+JSBncm91cF9ieShhdXRob3JzKSAlPiUgdGFsbHkoKSAKYXV0aG9yTnVtID0gbGVuZ3RoKHVuaXF1ZShhdXRob3JDb3VudFByZWxpbSkkbikKYXV0aG9yQ291bnQgPSB0b3BfbihhdXRob3JDb3VudFByZWxpbSwgMjAsIG4pCmBgYAoKaW1wb3J0IGRhdGEKVGhlIGRhdGFzZXQgaXMgZnJvbSBhbm90aGVyIHNpdGUgdGhhdCBpcyBmcm9tIGFuIGVhcmxpZXIgd2Vic2NyYXBpbmcgZXhlcmNpc2UgZnJvbSBHb29kIFJlYWRzIGFzIHdlbGwuIFRoZSBudW1iZXIgb2YgcmF0aW5ncyBhbmQgcmV2aWV3cyB2YXJpZWQgZm9yIHNvbWUgYm9va3MuIEhvd2V2ZXIsIHRoZSBhdmVyYWdlIHJhdGluZ3MgcmVtYWluZWQgY29uc3RhbnQuCmBgYHtyfQpib29rc19kYXRhIDwtIHJlYWRfY3N2KCIvVXNlcnMvdGhhbmRla2FjaGVob3JlL0RvY3VtZW50cy9HaXRIdWIvYWxsYW5ncmF5aGFja2F0aG9uL01ML2Jvb2tfZGF0YS5jc3YiKQpib29rczJuZCA9IGFzX3RpYmJsZShib29rc19kYXRhKSAlPiUgZmlsdGVyKGJvb2tfZm9ybWF0ICVpbiUgYyggIlBhcGVyYmFjayIsICJIYXJkY292ZXIiLCAiTWFzcyBNYXJrZXQgUGFwZXJiYWNrIiwgIkxlYXRoZXIgQm91bmQiLCAiRmxleGlib3VuZCIsICJCb2FyZCBib29rIiwgIkxpYnJhcnkgQmluZGluZyIsICJWaW55bCBDb3ZlciIsICJCb2FyZCBCb29rIiwgIlVua25vd24gQmluZGluZyIgKSkKYGBgCgoKCgpKb2luIGRhdGEuIFJldGFpbiBvbmx5IHJvd3MgaW4gYm90aCBzZXRzLgpgYGB7cn0KCmpvaW5UaGVUYWJsZXMgPSBmdW5jdGlvbihkZjEsIGRmMikgewogIGpvaW4yID0gc2VsZWN0KGRmMiwgYm9va19hdXRob3JzLCBib29rX3RpdGxlLCBib29rX3JhdGluZ19jb3VudCwgYm9va19yZXZpZXdfY291bnQpCiAgam9pbjEgPSBzZWxlY3QoZGYxLCB0aXRsZSwgYXV0aG9ycywgaXNibjEzLCAgYCMgbnVtX3BhZ2VzYCwgYXZlcmFnZV9yYXRpbmcsIHJhdGluZ3NfY291bnQsIHRleHRfcmV2aWV3c19jb3VudCkKICBmaXJlID0gbGVmdF9qb2luKGpvaW4xLCBqb2luMiwgYnkgPSBjKCJ0aXRsZSIgPSAiYm9va190aXRsZSIsICJhdXRob3JzIiA9ICJib29rX2F1dGhvcnMiKSkKICBmaXJlMiA9IG5hLm9taXQoZmlyZSkKICBmaXJlMgp9CmZpbmFsVGFibGUgPSBqb2luVGhlVGFibGVzKGJvb2tzQWN0aXZlLCBib29rczJuZCkKYGBgCgoKUHJlcGFyZSBkYXRhIGZvciBjbHVzdGVyaW5nIGJ5IHJlbW92aW5nIGFsbCB0aGUgcXVhbGl0YXRpdmUgdmFyaWFibGVzIGFuZCBub3JtYWxpemluZyB0aGUgZGF0YQpgYGB7cn0Kbm9ybWFsaXplIDwtIGZ1bmN0aW9uKHgpeyh4LW1pbih4KSkvKG1heCh4KS1taW4oeCkpfQpwcmVsaW0gPSBmaW5hbFRhYmxlICU+JSBzZWxlY3QoYCMgbnVtX3BhZ2VzYCwgYXZlcmFnZV9yYXRpbmcsIHJhdGluZ3NfY291bnQsIHRleHRfcmV2aWV3c19jb3VudCwgYm9va19yYXRpbmdfY291bnQsIGJvb2tfcmV2aWV3X2NvdW50KQoKQ2x1c0RhdGFzZXQgPSBhcHBseShwcmVsaW0sIDIsIG5vcm1hbGl6ZSkKYGBgCgpLLW1lYW5zIGNsdXN0ZXJpbmcKYGBge3J9CmxpYnJhcnkoImZhY3RvZXh0cmEiKQpzZXQuc2VlZCgxMjEwMjAxOSkKa20ucmVzIDwtIGttZWFucyhDbHVzRGF0YXNldCwgOCwgbnN0YXJ0ID0gMjUpCiMgUHJpbnQgdGhlIHJlc3VsdHMKcHJpbnQoa20ucmVzKQpgYGAKClJlc3VsdHMgYW5kIEF1dGhvcnMvVGl0bGVzCmBgYHtyfQpyZXN1bHRzVGFibGUgPSBjYmluZChmaW5hbFRhYmxlLCBjbHVzdGVycyA9IGttLnJlcyRjbHVzdGVyKQpWaWV3KHJlc3VsdHNUYWJsZSkKYGBgCgpDbHVzdGVyIENvbXBhcmlzb24gZm9yIHJhdGluZ3MgYW5kIHJldmlld3MKYGBge3J9CmF2Z19yYXRpbmdfY2x1c3RlcnMgPSByZXN1bHRzVGFibGUgJT4lIGdyb3VwX2J5KGNsdXN0ZXJzKSAlPiUgc3VtbWFyaXNlKGF2Z1JhdGluZ3MgPSBtZWFuKGF2ZXJhZ2VfcmF0aW5nKSkKYXZnX3JhdGluZ0NvdW50MV9jbHVzdGVycyA9IHJlc3VsdHNUYWJsZSAlPiUgZ3JvdXBfYnkoY2x1c3RlcnMpICU+JSBzdW1tYXJpc2UoYXZnUmF0aW5nQ291bnQgPSBtZWFuKHJhdGluZ3NfY291bnQpKQphdmdfcmF0aW5nQ291bnQyX2NsdXN0ZXJzID0gcmVzdWx0c1RhYmxlICU+JSBncm91cF9ieShjbHVzdGVycykgJT4lIHN1bW1hcmlzZShhdmdSYXRpbmdDb3VudDIgPSBtZWFuKGJvb2tfcmF0aW5nX2NvdW50KSkKYXZnUmF0aW5nQ29tcGFyaXNvbiA9IGxlZnRfam9pbihhdmdfcmF0aW5nQ291bnQxX2NsdXN0ZXJzLCBhdmdfcmF0aW5nQ291bnQyX2NsdXN0ZXJzLCBieSA9ICJjbHVzdGVycyIgKQoKYXZnX3Jldmlld0NvdW50X2NsdXN0ZXJzMSA9IHJlc3VsdHNUYWJsZSAlPiUgZ3JvdXBfYnkoY2x1c3RlcnMpICU+JSBzdW1tYXJpc2UoYXZnUmV2aWV3cyA9IG1lYW4odGV4dF9yZXZpZXdzX2NvdW50KSkKYXZnX3Jldmlld0NvdW50X2NsdXN0ZXJzMiA9IHJlc3VsdHNUYWJsZSAlPiUgZ3JvdXBfYnkoY2x1c3RlcnMpICU+JSBzdW1tYXJpc2UoYXZnUmV2aWV3czIgPSBtZWFuKGJvb2tfcmV2aWV3X2NvdW50KSkKYXZnUmV2aWV3Q29tcGFyaXNvbiA9IGxlZnRfam9pbihhdmdfcmV2aWV3Q291bnRfY2x1c3RlcnMxLCBhdmdfcmV2aWV3Q291bnRfY2x1c3RlcnMyLCBieSA9ICJjbHVzdGVycyIgKQoKYGBgCgpDbHVzdGVyIGNvbXBhcmlzb24gb2YgbnVtYmVyIG9mIGF1dGhvcnMgcGVyIGNsdXN0ZXIgYW5kIHRoZW4gYXZnIG51bWJlciBvZiBwYWdlcyBwZXIgY2x1c3RlcgpgYGB7cn0KbnVtQXV0aG9yc19jbHVzdGVycyA9IHJlc3VsdHNUYWJsZSAlPiUgZ3JvdXBfYnkoY2x1c3RlcnMpICU+JSBzdW1tYXJpc2UobnVtX2F1dGhvcnMgPSBsZW5ndGgodW5pcXVlKGF1dGhvcnMpKSkKbnVtQXV0aG9yc19jbHVzdGVycyA9IGNiaW5kKG51bUF1dGhvcnNfY2x1c3RlcnMsIHNpemU9a20ucmVzJHNpemUpCmF2Z19QYWdlc19jbHVzdGVycyA9IHJlc3VsdHNUYWJsZSAlPiUgZ3JvdXBfYnkoY2x1c3RlcnMpICU+JSBzdW1tYXJpc2UoYXZnUGFnZXMgPSBtZWFuKGAjIG51bV9wYWdlc2ApKQpgYGAKCk91dHB1dCB0aGUgY29tcGFyaXNvbiB0YWJsZXMgdG8gY3N2IGZvciB2aXN1YWxpemF0aW9uIGZvciBwaXRjaGRlY2sKCg==</div>
 
 
 
