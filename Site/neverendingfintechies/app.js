@@ -14,3 +14,18 @@ let app = http.createServer((req, res) => {
 // Start the server on port 3000
 app.listen(3000, '127.0.0.1');
 console.log('Node server running on port 8080');
+
+
+$(document).ready(function() {
+    var eventFired = function ( type ) {
+        var n = $('#demo_info')[0];
+        n.innerHTML += '<div>'+type+' event - '+new Date().getTime()+'</div>';
+        n.scrollTop = n.scrollHeight;      
+    }
+ 
+    $('#example')
+        .on( 'order.dt',  function () { eventFired( 'Order' ); } )
+        .on( 'search.dt', function () { eventFired( 'Search' ); } )
+        .on( 'page.dt',   function () { eventFired( 'Page' ); } )
+        .DataTable();
+} );
