@@ -86,11 +86,7 @@ $(document).ready(function(){
 
 
 
-<!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-app.js"></script>
 
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
 
 // Initialize Firebase (ADD YOUR OWN DATA)
 var config = {
@@ -108,7 +104,7 @@ var config = {
   var messagesRef = firebase.database().ref('messages');
   
   // Listen for form submit
-  document.getElementById('contactForm').addEventListener('submit', submitForm);
+  document.getElementById('#contactForm').addEventListener('submit', submitForm);
   
   // Submit form
   function submitForm(e){
@@ -133,7 +129,7 @@ var config = {
     },3000);
   
     // Clear form
-    document.getElementById('contactForm').reset();
+    document.getElementById('#contactForm').reset();
   }
   
   // Function to get get form values
