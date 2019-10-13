@@ -8130,4 +8130,27 @@ h1, h2, h3, h4, h5, h6 {
   border-top: 1px solid #e0e1e3;
 }
 
+.goalProgress {
+  background: #f7f7f7;
+  padding: 5px;
+}
+
+.progressBar {
+  background: #ff008c;
+  color: #fff;
+  font-size: 1.5em;
+  font-family: 'helvetica neue', helvetica, arial, sans-serif;
+  letter-spacing: -1px;
+  font-weight: 700;
+  padding: 10px;
+  display: block;
+  overflow: hidden;
+  width: 20px;
+}
+
+.goalAmount {
+  display: none;
+  text-indent: -9999px;
+}
+
 /*# sourceMappingURL=style.css.map */
