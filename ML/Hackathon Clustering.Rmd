@@ -14,7 +14,7 @@ library("jsonlite")
 
 
 Import data
-Get Books from 5 specific languages
+Get Books from 5 specific languages from the Good Reads Website
 - Germany, French, eng-us, eng-gb, eng
 ```{r}
 books <- read_csv("/Users/thandekachehore/Documents/GitHub/allangrayhackathon/ML/books.csv")
@@ -33,6 +33,7 @@ List top 10 books with more than 10 ratings
 ```{r}
 top10BooksRatings = top_n(booksActive, 10, ratings_count) %>% 
   select(title, authors, average_rating, language_code, ratings_count)
+top10BooksRatings
 ```
 
 
@@ -42,7 +43,8 @@ top10BooksRatings = top_n(booksActive, 10, ratings_count) %>%
 ```{r}
 authorCountPrelim = booksActive %>% group_by(authors) %>% tally() 
 authorNum = length(unique(authorCountPrelim)$n)
-authorCount = top_n(authorCountPrelim, 20, n)
+authorCount = top_n(authorCountPrelim, 20, n) %>% arrange(-n)
+View(authorCount)
 ```
 
 import data
@@ -50,6 +52,7 @@ The dataset is from another site that is from an earlier webscraping exercise fr
 ```{r}
 books_data <- read_csv("/Users/thandekachehore/Documents/GitHub/allangrayhackathon/ML/book_data.csv")
 books2nd = as_tibble(books_data) %>% filter(book_format %in% c( "Paperback", "Hardcover", "Mass Market Paperback", "Leather Bound", "Flexibound", "Board book", "Library Binding", "Vinyl Cover", "Board Book", "Unknown Binding" ))
+
 ```
 
 
@@ -59,8 +62,9 @@ Join data. Retain only rows in both sets.
 ```{r}
 
 joinTheTables = function(df1, df2) {
-  join2 = select(df2, book_authors, book_title, book_rating_count, book_review_count)
   join1 = select(df1, title, authors, isbn13,  `# num_pages`, average_rating, ratings_count, text_reviews_count)
+  join2 = select(df2, book_authors, book_title, book_rating_count, book_review_count)
+  join2 = na.omit(join2)
   fire = left_join(join1, join2, by = c("title" = "book_title", "authors" = "book_authors"))
   fire2 = na.omit(fire)
   fire2
@@ -114,6 +118,11 @@ avg_Pages_clusters = resultsTable %>% group_by(clusters) %>% summarise(avgPages 
 
 Output the comparison tables to csv for visualization for pitchdeck
 ```{r}
+write_csv(authorCount, "topAuthor.csv")
+write_csv(resultsTable, "combinedTable.csv")
+write_csv(avgRatingComparison, "ratingComp.csv")
+write_csv(avgReviewComparison, "reviewComp.csv")
+write_csv(numAuthors_clusters, "authorClusterSize.csv")
 
 ```
 
