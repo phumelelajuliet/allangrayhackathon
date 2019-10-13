@@ -83,3 +83,72 @@ $(document).ready(function(){
         
  })(jQuery)
 })
+
+
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+// Initialize Firebase (ADD YOUR OWN DATA)
+var config = {
+    apiKey: "AIzaSyCje9lepQhCKfbve2m-qcqNwFOi4Dko45c",
+    authDomain: "allangrayhackathon.firebaseapp.com",
+    databaseURL: "https://allangrayhackathon.firebaseio.com",
+    projectId: "allangrayhackathon",
+    storageBucket: "allangrayhackathon.appspot.com",
+    messagingSenderId: "558390157060",
+    appId: "1:558390157060:web:7e67bf3273d2f6a8c6ba51"
+  };
+  firebase.initializeApp(config);
+  
+  // Reference messages collection
+  var messagesRef = firebase.database().ref('messages');
+  
+  // Listen for form submit
+  document.getElementById('contactForm').addEventListener('submit', submitForm);
+  
+  // Submit form
+  function submitForm(e){
+    e.preventDefault();
+  
+    // Get values
+    var name = getInputVal('name');
+    var company = getInputVal('company');
+    var email = getInputVal('email');
+    var phone = getInputVal('phone');
+    var message = getInputVal('message');
+  
+    // Save message
+    saveMessage(name, company, email, phone, message);
+  
+    // Show alert
+    document.querySelector('.alert').style.display = 'block';
+  
+    // Hide alert after 3 seconds
+    setTimeout(function(){
+      document.querySelector('.alert').style.display = 'none';
+    },3000);
+  
+    // Clear form
+    document.getElementById('contactForm').reset();
+  }
+  
+  // Function to get get form values
+  function getInputVal(id){
+    return document.getElementById(id).value;
+  }
+  
+  // Save message to firebase
+  function saveMessage(name, company, email, phone, message){
+    var newMessageRef = messagesRef.push();
+    newMessageRef.set({
+      name: name,
+      company:company,
+      email:email,
+      phone:phone,
+      message:message
+    });
+  }
